@@ -3,47 +3,509 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ainemapp</title>
+    <title>Ainemapp | Mikk Kivisild Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica Neue', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Audi-style container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* Navigation bar (Audi style with centered logo) */
+        .navbar {
+            background-color: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Left side - empty */
+        .nav-left {
+            width: 200px;
+        }
+
+        /* Center logo (straight, normal) */
+        .nav-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .center-logo img {
+            height: 40px;
+            width: auto;
+            transition: opacity 0.3s ease;
+            transform: rotate(0deg);
+        }
+
+        .center-logo img:hover {
+            opacity: 0.8;
+        }
+
+        /* Right side - Audihd text + logo */
+        .nav-right {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+        }
+
+        /* Audihd text styling with dropped & rotated 'i' */
+        .nav-text {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-family: 'Arial', 'Helvetica Neue', sans-serif;
+            line-height: 1;
+        }
+
+        /* Special styling for the letter 'i' - dropped AND rotated 5 degrees */
+        .dropped-i {
+            display: inline-block;
+            transform: translateY(0.35em) rotate(5deg);
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        /* Right side logo */
+        .right-logo img {
+            height: 30px;
+            width: auto;
+            transition: opacity 0.3s ease;
+            transform: rotate(-3deg);
+        }
+
+        .right-logo img:hover {
+            opacity: 0.8;
+        }
+
+        /* Hero section with image container */
+        .hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+        }
+
+        /* Image box under the hero text */
+        .hero-image-container {
+            width: 100%;
+            height: 300px;
+            margin-top: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-stretched-image {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;  /* Forces the image to stretch/distort to fill the box */
+            filter: brightness(30%);  /* Darkens the image to 30% brightness */
+            display: block;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 60px 0 20px 0;
+        }
+
+        .hero-content h1 {
+            font-size: 56px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            color: #aaa;
+            max-width: 600px;
+        }
+
+        /* Section titles (Audi style) */
+        .section-title {
+            font-size: 32px;
+            font-weight: 500;
+            margin: 60px 0 30px 0;
+            letter-spacing: -0.5px;
+            border-left: 4px solid #aaa;
+            padding-left: 20px;
+        }
+
+        /* Courses grid */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .course-card {
+            background: #141414;
+            border-radius: 12px;
+            padding: 24px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .course-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .course-card p {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 16px;
+        }
+
+        .course-link {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .course-link:hover {
+            color: white;
+        }
+
+        /* Accordion / Dropdown styles */
+        .accordion {
+            margin: 40px 0 60px 0;
+            border-radius: 24px;
+            background: #141414;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 28px 40px;
+            background: #141414;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            border: none;
+            font-family: inherit;
+        }
+
+        .accordion-header:hover {
+            background: #1a1a1a;
+        }
+
+        .accordion-title {
+            font-size: 28px;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+            color: white;
+        }
+
+        .accordion-icon {
+            font-size: 28px;
+            color: #aaa;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #0f0f0f;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .accordion-content.active {
+            max-height: 600px;
+        }
+
+        .info-card {
+            padding: 48px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 40px;
+            align-items: center;
+        }
+
+        .info-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 16px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #888;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .profile-image {
+            text-align: center;
+        }
+
+        .profile-image img {
+            max-width: 120px;
+            border-radius: 50%;
+            background: #2a2a2a;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px 0;
+            margin-top: 60px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+            .hero-content h1 {
+                font-size: 36px;
+            }
+            .hero-image-container {
+                height: 200px;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .accordion-header {
+                padding: 20px 24px;
+            }
+            .accordion-title {
+                font-size: 22px;
+            }
+            .info-card {
+                padding: 24px;
+            }
+            .center-logo img {
+                height: 30px;
+            }
+            .nav-text {
+                font-size: 18px;
+            }
+            .right-logo img {
+                height: 22px;
+            }
+            .nav-left {
+                width: 100px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-text {
+                font-size: 16px;
+            }
+            .right-logo img {
+                height: 18px;
+            }
+            .hero-image-container {
+                height: 150px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Minu Portfolio TTHK/TECHNOs õpitud ainetest:</h1>
-    <br/>
-    <p>
-        Siin on erialased tööd, ja muud ülesanded
-    </p>
-    <ul>
-        <li><a href="./SDLC.html">Tarkvara Arendusprotsess</a></li>
-        <li><a href="ProjectLibre.html">ProjectLibre Failid</a></li>
+    <!-- Audi-style navigation with straight center logo + right side Audihd and logo -->
+    <div class="navbar">
+        <div class="nav-container">
+            <!-- Left side - empty for balance -->
+            <div class="nav-left"></div>
+            
+            <!-- Center - STRAIGHT normal Audi logo -->
+            <div class="nav-center">
+                <div class="center-logo">
+                    <img src="./images/audi.png" alt="Audi Logo" onerror="this.src='https://via.placeholder.com/120x40?text=AUDI'">
+                </div>
+            </div>
+            
+            <!-- Right side - Audihd text with dropped + rotated 'i' + logo -->
+            <div class="nav-right">
+                <div class="nav-text">
+                    Aud<span class="dropped-i">i</span>hd
+                </div>
+                <div class="right-logo">
+                    <img src="./images/audi.png" alt="Audi Logo" onerror="this.src='https://via.placeholder.com/120x40?text=AUDI'">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero section with image box underneath -->
+    <div class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Minu õpingud<br>TTHK/TECHNO-s</h1>
+                <p>Erialased tööd, projektid ja ülesanded — kogutud ühte kohta.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- FORCED STRETCHED IMAGE BOX with object-fit fill and brightness 30% -->
+    <div class="hero-image-container">
+        <img class="hero-stretched-image" src="./images/me.jpg" alt="Stretched background" onerror="this.src='https://via.placeholder.com/1200x300?text=ME.PNG'">
+    </div>
+
+    <div class="container">
+        <!-- Courses section -->
+        <h2 class="section-title">Õpitud ained</h2>
+        <div class="courses-grid">
+            <div class="course-card">
+                <h3>Tarkvara Arendusprotsess</h3>
+                <p>SDLC metoodikad, nõuete analüüs ja dokumentatsioon.</p>
+                <a href="./SDLC.html" class="course-link">AVATUD →</a>
+            </div>
+            <div class="course-card">
+                <h3>Programmeerimise Alused</h3>
+                <p>Põhilised programmeerimiskontseptsioonid ja loogika.</p>
+                <span class="course-link">TULEMAS →</span>
+            </div>
+            <div class="course-card">
+                <h3>Programmeerimine I</h3>
+                <p>Objektorienteeritud programmeerimise põhitõed.</p>
+                <span class="course-link">TULEMAS →</span>
+            </div>
+            <div class="course-card">
+                <h3>Multimeedia</h3>
+                <p>Graafika, video ja audio töötlus.</p>
+                <span class="course-link">TULEMAS →</span>
+            </div>
+            <div class="course-card">
+                <h3>Veebirakenduste loomise alused</h3>
+                <p>HTML, CSS, JavaScript — veebi arendus.</p>
+                <span class="course-link">TULEMAS →</span>
+            </div>
+            <div class="course-card">
+                <h3>Andmebaasisüsteemide alused I & II</h3>
+                <p>SQL, andmebaaside disain ja haldus.</p>
+                <span class="course-link">TULEMAS →</span>
+            </div>
+            <div class="course-card">
+                <h3>Võrgurakendused</h3>
+                <p>API-d, klient-server arhitektuur.</p>
+                <span class="course-link">TULEMAS →</span>
+            </div>
+            <div class="course-card">
+                <h3>Mobiilirakendused</h3>
+                <p>React Native / Flutter — mobiilne arendus.</p>
+                <span class="course-link">TULEMAS →</span>
+            </div>
+        </div>
+
+        <!-- Dropdown about section -->
+        <div class="accordion" id="aboutAccordion">
+            <div class="accordion-header" id="accordionHeader">
+                <span class="accordion-title">Kes ma olen?</span>
+                <span class="accordion-icon" id="accordionIcon">▼</span>
+            </div>
+            <div class="accordion-content" id="accordionContent">
+                <div class="info-card">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Tegelase nimi?</div>
+                            <div class="info-value">Mikk Kivisild</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Mida ma teen?</div>
+                            <div class="info-value">Tiksun</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Spawn?</div>
+                            <div class="info-value">Tallinn</div>
+                        </div>
+                        <div class="profile-image">
+                            <img src="./images/Stick.png" alt="Mikk profile" onerror="this.src='https://via.placeholder.com/120x120?text=M'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <p>© 2026 Mikk Kivisild — TTHK/TECHNO portfolio</p>
+        </div>
+    </div>
+
+    <script>
+        // Dropdown / Accordion functionality
+        const header = document.getElementById('accordionHeader');
+        const content = document.getElementById('accordionContent');
+        const icon = document.getElementById('accordionIcon');
         
-        <li>Programmeerimise Alused</li>
-        <li>Programmeerimine I</li>
-        <li>Multimeedia</li>
-        <li>Veebirakenduste loomise alused</li>
-        <li>Andmebaasisüsteemide alused I & II</li>
-        <li>Võrgurakendused</li>
-        <li>Mobiilirakendused</li>
-    </ul>
-    <br/><br/>
-    --------------------------------------------------
-    <br/><br/>
-    <h2>Kes Ma Olen?</h2>
-    <table>
-        <tr>
-            <td>Minu nimi:</td>
-            <td>Mikk Kivisild</td>
-        </tr>
-        <tr>
-            <td>Mida ma teen?</td>
-            <td>Tiksun</td>
-        </tr>
-        <tr>
-            <td>Kust ma tulen?</td>
-            <td>Tallinn</td>
-        </tr>
-        <tr>
-            <td>Pilt</td>
-            <td><img src="/images/Stick.png" alt="Stick"/></td>
-        </tr>
-    </table>
+        let isOpen = false;
+        
+        header.addEventListener('click', function() {
+            if (!isOpen) {
+                content.classList.add('active');
+                icon.style.transform = 'rotate(180deg)';
+                isOpen = true;
+            } else {
+                content.classList.remove('active');
+                icon.style.transform = 'rotate(0deg)';
+                isOpen = false;
+            }
+        });
+    </script>
 </body>
 </html>
